@@ -11,7 +11,20 @@
 	<%= stylesheet_link_tag "for_git/bootstrap.min.css"%>
 	<%= stylesheet_link_tag "for_git/AdminLTE.min.css"%>
 	<%= stylesheet_link_tag "for_git/_all-skins.min.css"%>
-  </head>
+  <!-- jQuery 2.1.4 -->
+    <%= javascript_include_tag "jQuery-2.1.4.min.js" %>    
+    <!-- Bootstrap 3.3.5 -->
+    <%= javascript_include_tag "bootstrap.min.js" %>
+    <!-- ChartJS 1.0.1 -->
+    <%= javascript_include_tag "Chart.min.js" %>
+    <!-- FastClick -->
+    <%= javascript_include_tag "fastclick.min.js" %>
+    <!-- AdminLTE App -->
+    <%= javascript_include_tag "app.min.js" %>
+    <!-- AdminLTE for demo purposes -->
+    <%= javascript_include_tag "demo.js" %>
+    <!-- page script -->
+</head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
@@ -450,18 +463,6 @@
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
-    <!-- jQuery 2.1.4 -->
-    <%= javascript_include_tag "jQuery-2.1.4.min.js" %>    
-    <!-- Bootstrap 3.3.5 -->
-    <%= javascript_include_tag "bootstrap.min.js" %>
-    <!-- ChartJS 1.0.1 -->
-    <%= javascript_include_tag "Chart.min.js" %>
-    <!-- FastClick -->
-    <%= javascript_include_tag "fastclick.min.js" %>
-    <!-- AdminLTE App -->
-    <%= javascript_include_tag "app.min.js" %>
-    <!-- AdminLTE for demo purposes -->
-    <%= javascript_include_tag "demo.js" %>
     <!-- page script -->
     <script>
       $(function () {
