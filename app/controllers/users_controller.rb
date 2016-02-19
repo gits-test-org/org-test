@@ -3,7 +3,6 @@ class UsersController < ApplicationController
 
   def login
     @client_id = "5fd7a0259588cf8549ce"
-    session[:token] = nil
   end
   def logout
     session[:token] = nil
@@ -38,8 +37,6 @@ class UsersController < ApplicationController
                          }
                         )
     @user_name = @user["login"]
-    @user_name = @user["login"]
-    @user_created_at = @user["created_at"]
     @repos =  HTTParty.get("https://api.github.com/user/repos?access_token=#{session[:token]}", 
                            :headers=>{
                              "User-Agent" => "GitStats"
@@ -56,7 +53,6 @@ class UsersController < ApplicationController
     }
                         )
    @user_name = @user["login"]
-   @user_created_at = @user["created_at"]
    @repos =  HTTParty.get("https://api.github.com/user/repos?access_token=#{session[:token]}", 
                            :headers=>{
                              "User-Agent" => "GitStats"
@@ -76,7 +72,7 @@ class UsersController < ApplicationController
    msg = @contributors["message"] rescue nil 
    msg_status = @contributors["status"] rescue nil 
    if msg == "Not Found"
-     @error = "no commits"
+     @error = "No Commits"
    elsif
      msg_status == "204 No Content" 
      @error = "No Commits"
@@ -112,5 +108,9 @@ class UsersController < ApplicationController
        each_merged.push(event["actor"]["login"])
      end 
    end 
+   @merged_pull = {}
+   @all_contributors.each do |contributor|
+   @merged_pull.store(contributor["contributor"],each_merged.count("#{contributor["contributor"]}"))
+   end
  end
 end

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<% #require q%>
+<% require "time"%>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Github Stats | <%=params[:repo_name]%></title>
+    <title>Github Stats</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -12,26 +12,12 @@
 	<%= stylesheet_link_tag "for_git/bootstrap.min.css"%>
 	<%= stylesheet_link_tag "for_git/AdminLTE.min.css"%>
 	<%= stylesheet_link_tag "for_git/_all-skins.min.css"%>
-    <!-- Bootstrap 3.3.5 -->
-    <!-- Font Awesome -->
-    <!-- Ionicons -->
-    <!-- Theme style -->
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
-
       <header class="main-header">
         <!-- Logo -->
-        <a href="../../index2.html" class="logo">
+        <a class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>Git</b>s</span>
           <!-- logo for regular state and mobile devices -->
@@ -41,52 +27,29 @@
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
           <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
           </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-              <!-- Messages: style can be found in dropdown.less-->
-              <!-- Notifications: style can be found in dropdown.less -->
-              <!-- Tasks: style can be found in dropdown.less -->
-              <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs"><%= @user_name %></span>
+                    <span class="hidden-xs"><%= @user_name %></span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu"
+              style="
+              padding-top: 0px;
+              padding-right: 0px;
+              border-right-width: 0px;
+              ">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <div style="width: 90px; height: 50px;"></div>
                     <p>
                     <%= @user_name%>
-                    <!--   <small>Member since </small> -->
+                    <small>Member since <%= Time.parse(@user["created_at"]).strftime("%Y/%m/%d")%></small> 
                     </p>
                   </li>
-                  <!-- Menu Body -->
-                    <!--
-                     <li class="user-body">
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Followers</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
-                    </div>
-                  </li>
-                    -->
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                <!--
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                -->
                     <div class="pull-right">
                       <a href="http://localhost:3000/users/logout" class="btn btn-default btn-flat">Sign out</a>
                     </div>
@@ -103,9 +66,9 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
-          <div class="user-panel">
+          <div class="user-panel"
+               style = "padding-bottom: 30px;">
             <div class="pull-left image">
-              <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
               <p><%= @user_name %></p>
@@ -113,40 +76,8 @@
           </div>
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
-          <!--
             <li class="treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-              </ul>
-              </li>
-          -->    
-            <li class="treeview">
-             <!--
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Layout Options</span>
-                <span class="label label-primary pull-right">4</span>
-                </a>
-             -->  
-              <ul class="treeview-menu">
-                <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-              </ul>
             </li>
-            <!--
-            <li>
-              <a href="../widgets.html">
-                <i class="fa fa-th"></i> <span>Widgets</span> <small class="label pull-right bg-green">new</small>
-              </a>
-              </li>
-            -->
             <li class="treeview active">
               <a>
                 <i class="fa fa-pie-chart"></i>
@@ -154,7 +85,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                  <li><a href="."><i class="fa fa-circle-o"></i>ALL REPOS LIST</a></li>
+                  <li><a href="."><i class="fa fa-folder-o"></i>ALL REPOS LIST</a></li>
                 <%@repos.each do |repo|%>
                   <li><a href=<%= "./#{repo['name']}/chart?owner=#{repo["owner"]["login"]}" %>><i class="fa fa-circle-o"></i><%=repo["name"]%></a></li>
               <%end%>
@@ -174,11 +105,6 @@
             <%= params[:repo_name] %>
             <small>statistics</small>
           </h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Charts</a></li>
-            <li class="active">ChartJS</li>
-          </ol>
         </section>
 
         <!-- Main content -->
@@ -197,9 +123,9 @@
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>Version</b> 2.3.0
+          <b>Version</b> 1.0
         </div>
-        <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2015-2016 <a>FiNC Studio</a>.</strong> All rights reserved.
       </footer>
 
       <!-- Control Sidebar -->
