@@ -1,0 +1,16 @@
+<h1>my repos</h1>
+<%
+    require "httparty"
+@total_commit = 0
+%>
+<% @repos.each do |repo|%>
+  <%= link_to "#{repo['name']}", repo_path(repo['name'],:owner => repo['owner']['login']) %>
+  <%@contributors = HTTParty.get("https://api.github.com/repos/#{repo['owner']['login']}/#{repo['name']}/stats/contributors?access_token=e0e79362f5667ba8a67d1e3f51b991cd2441646d")
+  @contributors.each do |cont|
+    if cont["author"]["login"] == @user 
+      @total_commit += cont["total"].to_i
+    end
+%>
+<% end%>
+<% end%>
+<p><%= "your total commit is #{@total_commit}"%></p>
