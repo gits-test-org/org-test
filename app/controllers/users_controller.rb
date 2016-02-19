@@ -57,10 +57,11 @@ class UsersController < ApplicationController
                         )
    @user_name = @user["login"]
    @user_created_at = @user["created_at"]
-   @repos =  HTTParty.get("https://api.github.com/users/#{@user_name}/repos?access_token=#{session[:token]}",
-                         :headers=>{
-      "User-Agent" => "GitStats"
-                         })
+   @repos =  HTTParty.get("https://api.github.com/user/repos?access_token=#{session[:token]}", 
+                           :headers=>{
+                             "User-Agent" => "GitStats"
+                           }
+                          )
    @contributors = HTTParty.get("https://api.github.com/repos/#{params[:owner]}/#{params["repo_name"]}/stats/contributors?access_token#{session[:token]}",
                          :headers=>{
       "User-Agent" => "GitStats"
@@ -73,10 +74,11 @@ class UsersController < ApplicationController
    @all_contributors = []
    each_merged = []
    msg = @contributors["message"] rescue nil 
+   msg_status = @contributors["status"] rescue nil 
    if msg == "Not Found"
      @error = "no commits"
    elsif
-     @contributors["status"] == "204 No Content"
+     msg_status == "204 No Content" 
      @error = "No Commits"
    else 
      @contributors.each do |cont| 
