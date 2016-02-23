@@ -45,7 +45,7 @@
                     <div style="width: 90px; height: 50px;"></div>
                     <p>
                     <%= @user_name%>
-                    <small>Member since <%= Time.parse(@user["created_at"]).strftime("%Y/%m/%d")%></small> 
+                    <small>Member since <%= Time.parse(session[:user]["created_at"]).strftime("%Y/%m/%d")%></small> 
                     </p>
                   </li>
                   <!-- Menu Footer-->
@@ -77,8 +77,6 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="treeview">
-            </li>
-            <li class="treeview active">
               <a>
                 <i class="fa fa-pie-chart"></i>
                 <span>Repositories</span>
@@ -86,8 +84,8 @@
               </a>
               <ul class="treeview-menu">
                   <li><a href="."><i class="fa fa-folder-o"></i>ALL REPOS LIST</a></li>
-                <%@repos.each do |repo|%>
-                  <li><a href=<%= "./#{repo['name']}/chart?owner=#{repo["owner"]["login"]}" %>><i class="fa fa-circle-o"></i><%=repo["name"]%></a></li>
+                <%session[:repos].each do |repo|%>
+                  <li><a href=<%= "./#{repo['name']}/chart?owner=#{repo["owner"]}" %>><i class="fa fa-circle-o"></i><%=repo["name"]%></a></li>
               <%end%>
               </ul>
             </li>
@@ -114,8 +112,8 @@
               <h3 class="box-title">Repositories</h3>
             </div>
             <div class="box-body">
-              <% @repos.each do |repo| %>
-                <%= link_to "#{repo['name']}", {:action => "chart",:repo_name =>repo['name'],:owner => repo['owner']['login']} ,{:metnod => :get ,:class => "btn btn-default btn-block"} %>
+              <% session[:repos].each do |repo| %>
+                <%= link_to "#{repo['name']}", {:action => "chart",:repo_name =>repo['name'],:owner => repo['owner']} ,{:metnod => :get ,:class => "btn btn-default btn-block"} %>
               <%end%>
             </div>
           </div>

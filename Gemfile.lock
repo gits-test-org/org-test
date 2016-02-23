@@ -116,6 +116,7 @@ GEM
     multipart-post (2.0.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    nprogress-rails (0.1.6.7)
     octokit (4.2.0)
       sawyer (~> 0.6.0, >= 0.5.3)
     rabl (0.11.8)
@@ -214,6 +215,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   json
+  nprogress-rails
   octokit
   rabl
   rails (= 4.2.5.1)

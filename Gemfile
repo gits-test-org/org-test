@@ -51,6 +51,6 @@ group :development do
   gem 'json'
   gem "grape-jbuilder"
   gem 'jquery-turbolinks'
-
+  gem 'nprogress-rails'
 end
 

@@ -11,18 +11,6 @@
 	<%= stylesheet_link_tag "for_git/bootstrap.min.css"%>
 	<%= stylesheet_link_tag "for_git/AdminLTE.min.css"%>
 	<%= stylesheet_link_tag "for_git/_all-skins.min.css"%>
-  <!-- jQuery 2.1.4 -->
-    <%= javascript_include_tag "jQuery-2.1.4.min.js" %>    
-    <!-- Bootstrap 3.3.5 -->
-    <%= javascript_include_tag "bootstrap.min.js" %>
-    <!-- ChartJS 1.0.1 -->
-    <%= javascript_include_tag "Chart.min.js" %>
-    <!-- FastClick -->
-    <%= javascript_include_tag "fastclick.min.js" %>
-    <!-- AdminLTE App -->
-    <%= javascript_include_tag "app.min.js" %>
-    <!-- AdminLTE for demo purposes -->
-    <%= javascript_include_tag "demo.js" %>
     <!-- page script -->
 </head>
   <body class="hold-transition skin-blue sidebar-mini">
@@ -58,7 +46,7 @@
                     "></div>
                     <p>
                     <%= @user_name%>
-                    <small>Member since <%= Time.parse(@user["created_at"]).strftime("%Y/%m/%d")%></small> 
+                    <small>Member since <%= Time.parse(session[:user]["created_at"]).strftime("%Y/%m/%d")%></small> 
                     <!--   <small>Member since </small> -->
                     </p>
                   </li>
@@ -100,8 +88,8 @@
               </a>
               <ul class="treeview-menu">
                   <li><a href=".."><i class="fa fa-folder-o"></i>ALL REPOS LIST</a></li>
-                <%@repos.each do |repo|%>
-                  <li><a href=<%= "../#{repo['name']}/chart?owner=#{repo["owner"]["login"]}" %>><i class="fa fa-circle-o"></i><%=repo["name"]%></a></li>
+                <%session[:repos].each do |repo|%>
+                  <li><a href=<%= "../#{repo['name']}/chart?owner=#{repo["owner"]}" %>><i class="fa fa-circle-o"></i><%=repo["name"]%></a></li>
               <%end%>
               </ul>
             </li>
@@ -118,19 +106,20 @@
             <%= params[:repo_name] %>
             <small>statistics</small>
           </h1>
+          <%= button_to "total",{:action => :add}, :remote=>true  %>
         </section>
 
         <!-- Main content -->
         <section class="content">
           <%= @error %>
           <!-- AREA CHART -->
-          <% @all_contributors.each do |user|%>
+          <% session[:all_contributors].each do |user|%>
             <%if user["contributor"] == @user_name%>
           <div class="row">
             <div class="col-md-6">
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><%= "Your commits " %></h3>
+                  <h3 class="box-title"><%= "your commits " %></h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -142,12 +131,12 @@
                   </div>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
-            </div><!-- /.col (LEFT) -->
+            </div><!-- /.col (left) -->
             <div class="col-md-6">
                <!-- add and del -->
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Additions and Deletions</h3>
+                  <h3 class="box-title">additions and deletions</h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -159,52 +148,15 @@
                   </div>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
-            </div><!-- /.col (RIGHT) -->
+            </div><!-- /.col (right) -->
+            <!-- partial-->
+            <div id ="user_total">
+            </div>
 
-            <div class="row">
-              <div class="col-md-3 col-sm-6 col-xs-6">
-                <div class="info-box">
-                  <span class="info-box-icon bg-yellow">c</span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Total Commits</span>
-                    <span class="info-box-number"><%=user["total_adc"]["c"]%></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-red">a</span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Total Addition</span>
-                    <span class="info-box-number"><%=user["total_adc"]["a"]%></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
-              <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-blue">d</span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Total Deletion</span>
-                    <span class="info-box-number"><%=user["total_adc"]["d"]%></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
-              <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-green">p</span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Total Merged Pull-Req</span>
-                    <span class="info-box-number"><%=@merged_pull["#{user['contributor']}"]%></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
-
-            </div><!-- /.row -->
-          
           </div><!-- /.row -->
             <%end%>
                 <% end%>
-              <% @all_contributors.each do |contributor|%>
+              <% session[:all_contributors].each do |contributor|%>
                 <% if contributor["contributor"] == @user_name%>
                   <% next%>
                 <% end%>
@@ -243,48 +195,8 @@
               </div><!-- /.box -->
             </div><!-- /.col (RIGHT) -->
 
-            <div class="row">
-                <div style = "width: 310px; height: 105px;">
-                  </div>
-                <div class="col-md-2 col-sm-6 col-xs-6">
-                <div class="info-box">
-                  <span class="info-box-icon bg-yellow">c</span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Total<br>Commits</span>
-                    <span class="info-box-number"><%=contributor["total_adc"]["c"]%></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-red">a</span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Total<br>Addition</span>
-                    <span class="info-box-number"><%=contributor["total_adc"]["a"]%></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
-              <div class="col-md-2 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-blue">d</span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Total<br>Deletion</span>
-                    <span class="info-box-number"><%=contributor["total_adc"]["d"]%></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
-              <div class="col-md-2 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-green">p</span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">Merged<br>Pull-Req</span>
-                    <span class="info-box-number"><%=@merged_pull["#{contributor['contributor']}"]%></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
-
-            </div><!-- /.row -->
-          
+            <div id=<%="#{contributor['contributor']}_total"%> >
+            </div>
           </div><!-- /.row -->
             <% end %>
         </section><!-- /.content -->
@@ -401,6 +313,7 @@
           <!-- Settings tab content -->
           <div class="tab-pane" id="control-sidebar-settings-tab">
             <form method="post">
+
               <h3 class="control-sidebar-heading">General Settings</h3>
               <div class="form-group">
                 <label class="control-sidebar-subheading">
@@ -421,6 +334,7 @@
                   Other sets of options are available
                 </p>
               </div><!-- /.form-group -->
+
 
               <div class="form-group">
                 <label class="control-sidebar-subheading">
@@ -462,20 +376,22 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-
-    <!-- page script -->
+  <!-- jQuery 2.1.4 -->
+    <%= javascript_include_tag "jQuery-2.1.4.min.js" %>    
+    <!-- Bootstrap 3.3.5 -->
+    <%= javascript_include_tag "bootstrap.min.js" %>
+    <!-- ChartJS 1.0.1 -->
+    <%= javascript_include_tag "Chart.min.js" %>
+    <!-- FastClick -->
+    <%= javascript_include_tag "fastclick.min.js" %>
+    <!-- AdminLTE App -->
+    <%= javascript_include_tag "app.min.js" %>
+    <!-- AdminLTE for demo purposes -->
+    <%= javascript_include_tag "demo.js" %>
+        <!-- page script -->
     <script>
       $(function () {
-        /* ChartJS
-         * -------
-         * Here we will create a few charts using ChartJS
-         */
-
-        //--------------
-        //- AREA CHART -
-        //--------------
-
-        <% @all_contributors.each do |contributor|%>
+        <% session[:all_contributors].each do |contributor|%>
         // Get context with jQuery - using jQuery's .get() method.
         var <%="#{contributor['contributor']}_commit"%>Canvas = $(<%=raw("\"##{contributor['contributor']}_commit\"")%>).get(0).getContext("2d");
         // This will get the first returned node in the jQuery collection.
@@ -611,3 +527,4 @@
     </script>
   </body>
 </html>
+<% #require a%>

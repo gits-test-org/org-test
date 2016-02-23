@@ -4,11 +4,9 @@ Rails.application.routes.draw do
   get '/users' => 'users#login', as: :user_login
   get '/users/logout' => 'users#logout', as: :user_logout
   get 'users/oauth' => 'users#oauth', as: :oauth
-  get "user/statistics" => "users#statistics"
-  get "user/statistics/repo/:repo_name" => "users#repo" , as: :repo
-  get "user/stat_css" => "users#stat_css"
   get "user/repos" => "users#repos",as: :repos 
   get "user/repos/:repo_name/chart" => "users#chart" ,as: :chart
+  post "user/repos/:repo_name/chart" => "users#add" 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

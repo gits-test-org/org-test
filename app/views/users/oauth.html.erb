@@ -27,7 +27,7 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <h1><b>Hello <%=@user["login"]%>!</b></h1>
+        <h1><b>Hello <%=session[:user]["login"]%>!</b></h1>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Successfully autholized!</p>
